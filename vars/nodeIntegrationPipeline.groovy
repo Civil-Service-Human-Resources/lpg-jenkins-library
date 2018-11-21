@@ -44,7 +44,7 @@ def call(body) {
                             string(credentialsId: 'SECURE_FILES', variable: 'SF'),
                             usernamePassword(credentialsId: 'docker_registry_credentials', usernameVariable: 'acr_username', passwordVariable: 'acr_password')
                     ]) {
-                        tfdeploy(pipelineParams.terraformModuleName, pipelineParams.terraformVarTag)
+                        tfdeploy(pipelineParams.terraformModuleName, pipelineParams.terraformVarTag, pipelineParams.environment)
                     }
                 }
             }
