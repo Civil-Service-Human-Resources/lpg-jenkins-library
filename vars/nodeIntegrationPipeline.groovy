@@ -11,13 +11,25 @@ def call(body) {
             stage('NPM Test') {
                 agent { label 'master' }
                 steps {
-                    nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
-                        sh 'npm install'
-                        sh 'npm run lint'
-                        sh 'npm run lint:webdriver'
-                        sh 'npm run build'
-                        sh 'npm test'
-                        stash 'workspace'
+                    script {
+                        if (pipelineParams.terraformModuleName == 'lpg-ui'){
+                            nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                                sh 'npm install'
+                                sh 'npm run lint'
+                                sh 'npm run lint:webdriver'
+                                sh 'npm run build'
+                                sh 'npm test'
+                                stash 'workspace'
+                            }
+                        }
+                        else {
+                            nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                                sh 'npm install'
+                                sh 'npm run build'
+                                sh 'npm test'
+                                stash 'workspace'
+                            }
+                        }
                     }
                 }
             }
