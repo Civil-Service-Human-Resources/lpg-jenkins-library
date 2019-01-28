@@ -67,6 +67,9 @@ def call(body) {
                     always {
                         junit 'build/test-results/**/TEST-*.xml'
                     }
+                    cleanup {
+                        deleteDir()
+                    }
                 }
             }
         }
