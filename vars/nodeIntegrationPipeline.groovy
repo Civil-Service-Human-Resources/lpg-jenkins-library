@@ -14,6 +14,7 @@ def call(body) {
                     script {
                         if (pipelineParams.terraformModuleName == 'lpg-ui'){
                             nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                                sh 'npm cache clean --force'
                                 sh 'npm install'
                                 sh 'npm run lint'
                                 sh 'npm run lint:webdriver'
