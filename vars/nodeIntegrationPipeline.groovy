@@ -46,21 +46,6 @@ def call(body) {
                     }
                 }
             }
-            stage('Deploy to Integration') {
-                agent { label 'master' }
-                steps {
-                    script {
-                        def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
-                        env.PATH = "${tfHome}:${env.PATH}"
-                    }
-                    withCredentials([
-                            string(credentialsId: 'SECURE_FILES', variable: 'SF'),
-                            usernamePassword(credentialsId: 'docker_registry_credentials', usernameVariable: 'acr_username', passwordVariable: 'acr_password')
-                    ]) {
-                        tfdeploy(pipelineParams.terraformModuleName, pipelineParams.terraformVarTag, pipelineParams.environment)
-                    }
-                }
-            }
             stage('Post') {
                 agent { label 'master' }
                 steps {
