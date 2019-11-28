@@ -23,6 +23,12 @@ def call(body) {
                                 stash 'workspace'
                             }
                         }
+                        else if (pipelineParams.terraformModuleName == 'data-transchriver'){
+                            nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                                sh 'npm install'
+                                stash 'workspace'
+                            }
+                        }
                         else {
                             nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
                                 sh 'npm install'
