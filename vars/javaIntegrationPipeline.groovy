@@ -7,6 +7,11 @@ def call(body) {
 
     pipeline {
         agent none
+
+        environment {
+            jwt_key = "test-key"
+        }
+
         stages {
             stage('Gradle Build') {
                 agent { label 'master' }
