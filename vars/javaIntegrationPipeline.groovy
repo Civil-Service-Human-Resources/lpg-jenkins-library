@@ -41,8 +41,10 @@ def call(body) {
                     unstash 'workspace'
                     script {
                         docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
-                            def customImage = docker.build(pipelineParams.dockerRepository+":${env.BRANCH_NAME}-${env.BUILD_ID}")
-                            customImage.push("${env.BRANCH_NAME}-${env.BUILD_ID}")
+                            def now = new Date()
+                            now.format("ddMMyy-HHmmss")
+                            def customImage = docker.build(pipelineParams.dockerRepository+":${env.BRANCH_NAME}-${now}")
+                            customImage.push("${env.BRANCH_NAME}-${now}")
                         }
                     }
                     stash 'workspace'
