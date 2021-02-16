@@ -47,9 +47,10 @@ def call(body) {
                     script {
                         docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
                             def now = new Date()
-                            def formatted = now.format("ddMMyy-HHmmss")
-                            def customImage = docker.build(pipelineParams.dockerRepository+":${env.BRANCH_NAME}-${formatted}")
-                            customImage.push("${env.BRANCH_NAME}-${now}")
+                            def formatted = now.format("yyyyMMdd-HHmmss")
+                            def buildId = "${env.BRANCH_NAME}-${env.BUILD_ID}-${formatted}"
+                            def customImage = docker.build(pipelineParams.dockerRepository+":${buildId}")
+                            customImage.push("${buildId}")
                         }
                     }
                 }
