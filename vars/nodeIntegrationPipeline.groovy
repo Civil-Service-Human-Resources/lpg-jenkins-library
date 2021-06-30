@@ -13,7 +13,7 @@ def call(body) {
                 steps {
                     script {
                         if (pipelineParams.terraformModuleName == 'lpg-ui'){
-                            nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                            nodejs(nodeJSInstallationName: 'NodeJS 16.3.0') {
                                 sh 'npm cache clean --force'
                                 sh 'npm install'
                                 sh 'npm run lint'
