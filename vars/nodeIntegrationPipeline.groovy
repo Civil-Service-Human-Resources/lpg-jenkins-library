@@ -30,7 +30,7 @@ def call(body) {
                             }
                         }
                         else {
-                            nodejs(nodeJSInstallationName: 'NodeJS 10.4.0') {
+                            nodejs(nodeJSInstallationName: 'NodeJS 16.3.0') {
                                 sh 'npm install'
                                 sh 'npm run build'
                                 sh 'npm test'
