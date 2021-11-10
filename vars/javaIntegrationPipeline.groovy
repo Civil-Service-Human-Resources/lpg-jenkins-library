@@ -45,7 +45,7 @@ def call(body) {
                             if (env.BRANCH_NAME =~ '^v\\d{1,2}(\\.\\d{1,2}){2}$') {
                                 acrRegionName = "prod"
                             }
-                            def acrRepoName =  + "${pipelineParams.dockerRepository}/${acrRegionName}"
+                            def acrRepoName =  "${pipelineParams.dockerRepository}/${acrRegionName}"
                             def customImage = docker.build("${acrRepoName}:${env.BRANCH_NAME}")
                             customImage.push("${env.BRANCH_NAME}")
                         }
