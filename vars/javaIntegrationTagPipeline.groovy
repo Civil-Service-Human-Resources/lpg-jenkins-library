@@ -4,18 +4,17 @@ properties([
     genericVariables: [
      [ key: 'tag', value: '$.ref' ],
      [ key: 'project_name', value: '$.repository.name' ],
-     [ key: 'commit', value: '$.changes[0].toHash' ],
      [ key: 'clone_url', value: '$.repository.links.clone[0].href' ]
     ],
      
-    causeString: '$committer_name pushed tag $tag to $clone_url referencing $commit',
+    causeString: 'commit',
     
     token: 'java-tag',
     
     printContributedVariables: true,
     printPostContent: true,
     
-    regexpFilterText: '$ref',
+    regexpFilterText: '$tag',
     regexpFilterExpression: '^refs/tags/.*'
    ]
   ])
@@ -33,7 +32,7 @@ pipeline {
             agent { label 'master' }
             steps {
                 sh 'git clone $clone_url'
-                sh 'git checkout tags/%tag'
+                sh 'git checkout tags/$tag'
                 sh 'cd $project_name'
             }
         }
