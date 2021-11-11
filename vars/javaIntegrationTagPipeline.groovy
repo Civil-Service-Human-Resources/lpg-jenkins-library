@@ -31,12 +31,11 @@ pipeline {
     stages {
         stage("Prepare") {
             agent { label 'master' }
-            deleteDir()
-            sh '''
-            echo git clone $clone_url
-            echo git checkout tags/$tag
-            sleep 1
-            '''
+            steps {
+                sh 'git clone $clone_url'
+                sh 'git checkout tags/%tag'
+                sh 'cd $project_name'
+            }
         }
         stage('Gradle Build') {
             agent { label 'master' }
