@@ -31,6 +31,7 @@ pipeline {
         stage("Prepare") {
             agent { label 'master' }
             steps {
+                deleteDir()
                 sh 'git clone $clone_url'
                 sh 'cd $project_name'
                 sh 'git checkout tags/$tag'
