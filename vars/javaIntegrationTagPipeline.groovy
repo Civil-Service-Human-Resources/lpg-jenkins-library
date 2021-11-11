@@ -32,8 +32,8 @@ pipeline {
             agent { label 'master' }
             steps {
                 sh 'git clone $clone_url'
-                sh 'git checkout tags/$tag'
                 sh 'cd $project_name'
+                sh 'git checkout tags/$tag'
             }
         }
         stage('Gradle Build') {
