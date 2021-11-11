@@ -32,9 +32,9 @@ pipeline {
             agent { label 'master' }
             steps {
                 deleteDir()
-                sh 'git clone $clone_url'
+                sh 'git clone '
                 sh 'cd $project_name'
-                sh 'git checkout tags/$tag'
+                sh 'git checkout refs/tags/$tag'
             }
         }
         stage('Gradle Build') {
