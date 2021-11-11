@@ -15,7 +15,7 @@ properties([
     printPostContent: true,
     
     regexpFilterText: '$tag',
-    regexpFilterExpression: '^refs/tags/.*'
+    regexpFilterExpression: '^v\\d{1,2}(\\.\\d{1,2}){2}$'
    ]
   ])
  ])
