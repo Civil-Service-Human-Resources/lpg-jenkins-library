@@ -4,7 +4,7 @@ properties([
     genericVariables: [
      [ key: 'tag', value: '$.ref' ],
      [ key: 'project_name', value: '$.repository.name' ],
-     [ key: 'clone_url', value: '$.repository.links.clone[0].href' ]
+     [ key: 'clone_url', value: '$.repository.clone_url' ]
     ],
      
     causeString: 'commit',
