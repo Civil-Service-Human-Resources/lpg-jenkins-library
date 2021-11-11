@@ -2,19 +2,15 @@ properties([
   pipelineTriggers([
    [$class: 'GenericTrigger',
     genericVariables: [
-     [ key: 'committer_name', value: '$.actor.displayName' ],
-     [ key: 'committer_email', value: '$.actor.emailAddress' ],
-     [ key: 'ref', value: '$.changes[0].refId'],
-     [ key: 'tag', value: '$.changes[0].refId', regexpFilter: 'refs/tags/'],
+     [ key: 'tag', value: '$.ref' ],
+     [ key: 'project_name', value: '$.repository.name' ],
      [ key: 'commit', value: '$.changes[0].toHash' ],
-     [ key: 'repo_slug', value: '$.repository.slug' ],
-     [ key: 'project_key', value: '$.repository.project.key' ],
      [ key: 'clone_url', value: '$.repository.links.clone[0].href' ]
     ],
      
     causeString: '$committer_name pushed tag $tag to $clone_url referencing $commit',
     
-    token: 'abc123',
+    token: 'java-tag',
     
     printContributedVariables: true,
     printPostContent: true,
@@ -34,10 +30,11 @@ pipeline {
 
     stages {
         stage("Prepare") {
+            agent { label 'master' }
             deleteDir()
             sh '''
             echo git clone $clone_url
-            echo git checkout $commit
+            echo git checkout tags/$tag
             sleep 1
             '''
         }
@@ -69,13 +66,9 @@ pipeline {
                 unstash 'workspace'
                 script {
                     docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
-                        def acrRegionName = "test"
-                        if (env.BRANCH_NAME =~ '^v\\d{1,2}(\\.\\d{1,2}){2}$') {
-                            acrRegionName = "prod"
-                        }
-                        def acrRepoName =  "${pipelineParams.dockerRepository}/${acrRegionName}"
-                        def customImage = docker.build("${acrRepoName}:${env.BRANCH_NAME}")
-                        customImage.push("${env.BRANCH_NAME}")
+                        def acrRepoName =  "${project_name}/prod"
+                        def customImage = docker.build("${acrRepoName}:${tag}")
+                        customImage.push("${tag}")
                     }
                 }
                 stash 'workspace'
