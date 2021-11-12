@@ -35,7 +35,7 @@ pipeline {
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: 'refs/tags/$tag']],
-                    userRemoteConfigs: [[credentialsId: '1a6c9822-a708-4cae-975e-72270ab2bff8', url: '$clone_url']]
+                    userRemoteConfigs: [[url: '$clone_url']]
                 ])
                 sh 'ls'
                 stash 'workspace'
