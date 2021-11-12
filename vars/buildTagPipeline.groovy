@@ -44,13 +44,13 @@ pipeline {
                     branches: [[name: 'refs/tags/$tag']],
                     userRemoteConfigs: [[url: '$clone_url']]
                 ])
-                stash 'workspace'
+                // stash 'workspace'
             }
         }
         stage('Build') {
             agent { label 'master' }
             steps {
-                unstash 'workspace'
+                // unstash 'workspace'
                 script {
                     if (lang == 'node') {
                         if (project_name == 'lpg-services'){
@@ -84,7 +84,7 @@ pipeline {
                     }
                     
                 }
-                stash 'workspace'
+                // stash 'workspace'
             }
         }
         stage('Test') {
@@ -95,7 +95,7 @@ pipeline {
             }
             agent { label 'master' }
             steps {
-                unstash 'workspace'
+                // unstash 'workspace'
                 publishHTML([allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
@@ -103,13 +103,13 @@ pipeline {
                                 reportFiles          : 'index.html',
                                 reportName           : 'HTML Report',
                                 reportTitles         : ''])
-                stash 'workspace'
+                // stash 'workspace'
             }
         }
         stage('Build Container & Push to ACR') {
             agent { label 'master' }
             steps {
-                unstash 'workspace'
+                // unstash 'workspace'
                 script {
                     docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
                         def acrRepoName =  "${project_name}/prod"
@@ -117,14 +117,14 @@ pipeline {
                         customImage.push("${tag}")
                     }
                 }
-                stash 'workspace'
+                // stash 'workspace'
             }
         }
         stage('Post') {
             agent { label 'master' }
-            steps {
-                unstash 'workspace'
-            }
+            // steps {
+            //     unstash 'workspace'
+            // }
             post {
                 always {
                     script {
@@ -133,9 +133,9 @@ pipeline {
                         }
                     }
                 }
-                cleanup {
-                    deleteDir()
-                }
+                // cleanup {
+                //     deleteDir()
+                // }
             }
         }
     }
