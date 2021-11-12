@@ -41,11 +41,10 @@ def call(body) {
                     unstash 'workspace'
                     script {
                         docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
-                            def now = new Date()
-                            def formattedCurrentDateTime = now.format("yyyyMMdd-HHmmss")
-                            def buildId = "${env.BRANCH_NAME}-${env.BUILD_ID}-${formattedCurrentDateTime}"
-                            def customImage = docker.build(pipelineParams.dockerRepository+":${buildId}")
-                            customImage.push("${buildId}")
+                            def repo_name = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+                            def acrRepoName =  "${repo_name}/test"
+                            def customImage = docker.build("${acrRepoName}:${env.BRANCH_NAME}")
+                            customImage.push("${env.BRANCH_NAME}")
                         }
                     }
                     stash 'workspace'
