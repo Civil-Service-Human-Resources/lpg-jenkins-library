@@ -41,7 +41,7 @@ def call(body) {
                     unstash 'workspace'
                     script {
                         docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
-                            def acrRepoName =  "${pipelineParams.dockerRepository}/test"
+                            def acrRepoName =  "${env.JOB_BASE_NAME}/test"
                             def customImage = docker.build("${acrRepoName}:${env.BRANCH_NAME}")
                             customImage.push("${env.BRANCH_NAME}")
                         }
