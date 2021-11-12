@@ -4,7 +4,8 @@ properties([
     genericVariables: [
      [ key: 'tag', value: '$.ref' ],
      [ key: 'project_name', value: '$.repository.name' ],
-     [ key: 'clone_url', value: '$.repository.clone_url' ]
+     [ key: 'clone_url', value: '$.repository.clone_url' ],
+     [ key: 'username', value: '$.sender.login' ]
     ],
      
     causeString: 'commit',
@@ -34,6 +35,7 @@ pipeline {
                 deleteDir()
                 script {
                     currentBuild.displayName = '$project_name $tag'
+                    currentBuild.description = 'Building tag $tag for repo $project_name. Tag created by $username.'
                 }
                 checkout([
                     $class: 'GitSCM',
