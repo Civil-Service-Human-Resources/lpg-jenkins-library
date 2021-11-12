@@ -44,6 +44,7 @@ pipeline {
         stage('Gradle Build') {
             agent { label 'master' }
             steps {
+                unstash 'workplace'
                 sh './gradlew clean'
                 sh './gradlew build'
                 stash 'workspace'
