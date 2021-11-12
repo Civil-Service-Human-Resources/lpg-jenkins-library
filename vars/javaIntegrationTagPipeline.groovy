@@ -32,7 +32,9 @@ pipeline {
             agent { label 'master' }
             steps {
                 deleteDir()
-                currentBuild.displayName = '$project_name $tag'
+                script {
+                    currentBuild.displayName = '$project_name $tag'
+                }
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: 'refs/tags/$tag']],
