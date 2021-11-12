@@ -34,8 +34,8 @@ pipeline {
             steps {
                 deleteDir()
                 script {
-                    currentBuild.displayName = '$project_name $tag'
-                    currentBuild.description = 'Building tag $tag for repo $project_name. Tag created by $username.'
+                    currentBuild.displayName = "${project_name} ${tag}"
+                    currentBuild.description = "Building tag ${tag} for repo ${project_name}. Tag created by ${username}."
                 }
                 checkout([
                     $class: 'GitSCM',
