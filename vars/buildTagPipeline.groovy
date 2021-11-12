@@ -89,7 +89,9 @@ pipeline {
         }
         stage('Test') {
             when {
-                lang 'java'
+                expression {
+                    return lang == 'java'
+                }
             }
             agent { label 'master' }
             steps {
