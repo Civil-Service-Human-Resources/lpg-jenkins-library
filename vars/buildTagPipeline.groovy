@@ -30,6 +30,10 @@ pipeline {
         jwt_key = "test-key"
     }
 
+    options {
+        skipDefaultCheckout()
+    }
+
     stages {
         stage("Prepare") {
             agent { label 'master' }
