@@ -122,21 +122,23 @@ pipeline {
         }
         stage('Post') {
             agent { label 'master' }
+            steps {
+                script {
+                    if (lang == 'java') {
+                        junit 'build/test-results/**/TEST-*.xml'
+                    }
+                }
+            }
             // steps {
             //     unstash 'workspace'
             // }
-            post {
-                always {
-                    script {
-                        if (lang == 'java') {
-                            junit 'build/test-results/**/TEST-*.xml'
-                        }
-                    }
-                }
-                // cleanup {
-                //     deleteDir()
-                // }
-            }
+            // post {
+            //     always {
+            //     }
+            //     // cleanup {
+            //     //     deleteDir()
+            //     // }
+            // }
         }
     }
 }
