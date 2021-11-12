@@ -37,7 +37,6 @@ pipeline {
                     branches: [[name: 'refs/tags/$tag']],
                     userRemoteConfigs: [[url: '$clone_url']]
                 ])
-                sh 'ls'
                 stash 'workspace'
             }
         }
