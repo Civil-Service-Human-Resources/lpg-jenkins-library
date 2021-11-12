@@ -46,7 +46,8 @@ def call(body) {
                     unstash 'workspace'
                     script {
                         docker.withRegistry("${env.DOCKER_REGISTRY_URL}", 'docker_registry_credentials') {
-                            def acrRepoName =  "${env.JOB_BASE_NAME}/test"
+                            def repo_name = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+                            def acrRepoName =  "${repo_name}/test"
                             def customImage = docker.build("${acrRepoName}:${env.BRANCH_NAME}")
                             customImage.push("${env.BRANCH_NAME}")
                         }
