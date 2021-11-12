@@ -9,7 +9,7 @@ properties([
     ],
      genericRequestVariables: [
         [key: 'lang']
-     ]
+     ],
     causeString: 'commit',
     
     token: 'create-tag',
