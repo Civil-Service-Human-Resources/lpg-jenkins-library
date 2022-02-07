@@ -6,19 +6,17 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%
 
 logger = logging.getLogger()
 
-def get_sql_conn():
-
-    return {
-        "user" :os.environ['SQL_USER'],
-        "password" :os.environ['SQL_PASSWORD'],
-        "host" :os.environ['SQL_HOST'],
-        "port" :os.environ['SQL_PORT'],
-        "database": 'identity'
-    }
+db_conn = {
+    "user" :os.environ['SQL_USER'],
+    "password" :os.environ['SQL_PASSWORD'],
+    "host" :os.environ['SQL_HOST'],
+    "port" :3306,
+    "database": 'identity'
+}
 
 DELETE_BATCH = 1000
 
-cnx = connector.connect(**get_sql_conn("identity"))
+cnx = connector.connect(**db_conn)
 
 all_tokens = "select count(*) from token"
 all_valid_non_user_tokens = "select count(*) from token where status = 0 and user_name is null;"
@@ -85,5 +83,7 @@ def run():
     if valid_user_token_count:
         logger.info(f"Deleting valid user tokens ({valid_user_token_count})")
         delete_tokens(DELETE_VALID_USER_TOKEN_SQL, valid_user_token_count)
+
+    logger.info("Job finished")
 
 run()
