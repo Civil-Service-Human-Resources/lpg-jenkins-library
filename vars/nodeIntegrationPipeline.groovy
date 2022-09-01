@@ -19,7 +19,7 @@ def call(body) {
                                 sh 'npm run lint'
                                 sh 'npm run lint:webdriver'
                                 sh 'npm run build'
-                                sh 'npm test:ts'
+                                sh 'npm run test:ts'
                                 stash 'workspace'
                             }
                         }
